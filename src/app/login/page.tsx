@@ -1,10 +1,9 @@
-import { Suspense } from "react";
-import { Form } from "../components/form";
+import { LoginForm } from "@/components/loginForm";
 
-export default function Home() {
+export default function Login() {
   return (
-    <Suspense>
-      <Form />
-    </Suspense>
-  )
+    <div>
+        <LoginForm />
+    </div>
+  );
 }

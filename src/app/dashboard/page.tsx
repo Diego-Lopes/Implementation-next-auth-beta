@@ -1,23 +1,12 @@
-import { redirect } from "next/navigation"
-import { auth, signOut } from "../../../auth"
+"use client";
 
-export default async function Home() {
-  const session = await auth()
+import { logout } from "@/lib/actions";
 
-  if (!session) return redirect('/login')
+
+export default function Dashboard() {
   return (
-    <>
-      <p>home</p>    
-      <p>authenticado</p>    
-      <code>{JSON.stringify(session.user)}</code>
-      <code>{JSON.stringify(session.expires)}</code>
-
-      <form action={async () => {
-        'use server'
-        await signOut({redirectTo: '/login'})
-      }}>
-        <button>sign out</button>
-      </form>
-    </>
-  )
+    <div>
+      <button onClick={() => logout()}>Logout</button>
+    </div>
+  );
 }
