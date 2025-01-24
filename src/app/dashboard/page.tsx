@@ -1,23 +1,52 @@
+import { signOut } from "next-auth/react"
 import { redirect } from "next/navigation"
-import { auth, signOut } from "../../../auth"
+import { verifySession } from "../lib/dal"
 
 export default async function Home() {
-  const session = await auth()
+  const session = await verifySession()
+
+  const userRole = session?.user?.role // Assuming 'role' is part of the session object
 
   if (!session) return redirect('/login')
-  return (
-    <>
-      <p>home</p>    
-      <p>authenticado</p>    
-      <code>{JSON.stringify(session.user)}</code>
-      <code>{JSON.stringify(session.expires)}</code>
 
-      <form action={async () => {
-        'use server'
-        await signOut({redirectTo: '/login'})
-      }}>
-        <button>sign out</button>
-      </form>
-    </>
+    if (userRole === 'admin') {
+      return (
+        <>
+        <p>home</p>    
+        <p>authenticado</p>    
+      
+  
+        <form action={async () => {
+          'use server'
+          await signOut({redirectTo: '/login'})
+        }}>
+          <button>sign out</button>
+        </form>
+        {/* <AdminDashboard /> */}
+      </>
+      
+    )
+    } else if (userRole === 'user') {
+      return (
+        <>
+        <p>home</p>    
+        <p>authenticado</p>    
+      
+  
+        <form action={async () => {
+          'use server'
+          await signOut({redirectTo: '/login'})
+        }}>
+          <button>sign out</button>
+        </form>
+        {/* <UserDashboard /> */}
+      </>
+      
+    )
+    } else {
+      redirect('/login')
+    }
+  return (
+    
   )
 }
