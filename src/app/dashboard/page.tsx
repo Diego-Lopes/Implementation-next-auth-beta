@@ -1,23 +1,21 @@
+import { auth, signOut } from "@/auth"
 import { redirect } from "next/navigation"
-import { auth, signOut } from "../../../auth"
 
-export default async function Home() {
+export default async function DashboardPage() {
   const session = await auth()
 
   if (!session) return redirect('/login')
   return (
-    <>
-      <p>home</p>    
-      <p>authenticado</p>    
-      <code>{JSON.stringify(session.user)}</code>
-      <code>{JSON.stringify(session.expires)}</code>
+    <div>
+      <h1>Dashboard</h1>
+      <p>Autenticado como: {session?.user?.email}</p>
 
       <form action={async () => {
         'use server'
         await signOut({redirectTo: '/login'})
       }}>
-        <button>sign out</button>
+        <button>sair</button>
       </form>
-    </>
+    </div>
   )
 }
