@@ -70,7 +70,13 @@ export default {
     // Protege as rotas que precisam de autenticação
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+      const isOnDashboard = nextUrl.pathname.startsWith('/');
+      const isOnLoginPage = nextUrl.pathname.startsWith('/login')
+
+      if (isOnLoginPage) {
+        if (isLoggedIn) return Response.redirect(new URL('/', nextUrl))
+        return true
+      }
 
       if (isOnDashboard) {
         if (isLoggedIn) return true;

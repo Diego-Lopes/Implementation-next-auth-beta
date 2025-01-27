@@ -4,6 +4,6 @@ export async function Body() {
 const session = await auth()
 
   return (
-    <code>{JSON.stringify(session?.accessToken, null, 2)}</code>
+    <code>{JSON.stringify(session?.user?.name, null, 2)}</code>
   )
 }
